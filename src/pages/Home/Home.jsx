@@ -12,7 +12,7 @@ console.log(data)
   return (
     <div>
       <Banner/>
-      <Books/>
+      <Books data={data}/>
     </div>
   );
 };
