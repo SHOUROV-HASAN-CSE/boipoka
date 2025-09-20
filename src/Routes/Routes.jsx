@@ -1,36 +1,40 @@
-import React from 'react';
+import React from "react";
 import { createBrowserRouter } from "react-router";
-import Root from '../pages/Root/Root';
-import ErrorPage from '../pages/ErrorPage/ErrorPage';
-import Home from '../pages/Home/Home';
-import Loader from '../components/Loader/Loader';
-import About from '../pages/About/About';
-import BookDetails from '../pages/BookDetails/BookDetails';
-
-
+import Root from "../pages/Root/Root";
+import ErrorPage from "../pages/ErrorPage/ErrorPage";
+import Home from "../pages/Home/Home";
+import Loader from "../components/Loader/Loader";
+import About from "../pages/About/About";
+import BookDetails from "../pages/BookDetails/BookDetails";
+import ReadList from "../pages/ReadList/ReadList";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    Component:Root,
+    Component: Root,
     HydrateFallback: Loader,
-    errorElement:<ErrorPage/>,
-    children:[
-      { 
-        index:true,
-        path:"/",
-        Component:Home,
-        loader:()=>fetch("bookData.json"),
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        path: "/",
+        Component: Home,
+        loader: async () => (await fetch("/data/bookData.json"))?.json(),
       },
       {
-        path:"/about",
-        Component:About,
+        path: "/about",
+        Component: About,
       },
       {
-        path:"/bookDetails/:id",
-        Component:BookDetails
-      }
-
-    ]
+        path: "/bookDetails/:id",
+        Component: BookDetails,
+        loader: async () => (await fetch("/data/bookData.json")).json(),
+      },
+       {
+        path: "/readList",
+        Component: ReadList,
+        loader: async () => (await fetch("/data/bookData.json")).json(),
+      },
+    ],
   },
 ]);
